@@ -3,10 +3,12 @@ import Image from "next/image";
 
 import BoardNav from "@/components/BoardNav";
 import List from "@/components/List";
+import EditItem from "@/components/EditItem";
 
-const BoardPage = async ({ params }) => {
+const BoardPage = async ({ params, searchParams }) => {
 
     const { boardId } = await params;
+    const { i } = await searchParams || null;
 
     const boardsData = [
         {
@@ -37,43 +39,44 @@ const BoardPage = async ({ params }) => {
             id: 0,
             boardId: 0,
             title: "My List",
-            items: [
-                {
-                    id: 0,
-                    title: "My Item",
-                    desc: "Description"
-                },
-                {
-                    id: 1,
-                    title: "My 2nd Item",
-                    desc: "Description"
-                },
-            ]
         },
         {
             id: 1,
             boardId: 0,
             title: "My 2nd List",
-            items: [
-                {
-                    id: 2,
-                    title: "Item",
-                    desc: "Description"
-                },
-            ]
         },
     ]
 
+    const itemsData = [
+        {
+            id: 0,
+            title: "My item",
+            description: "Description",
+            boardId: 0,
+            listId: 0,
+        },
+        {
+            id: 1,
+            title: "My 2nd item",
+            description: "Description",
+            boardId: 0,
+            listId: 1,
+        },
+    ]
 
     console.log(boardId);
 
-    return <div className="flex">
-        <Image src={boardsData.filter(b => b.id == boardId)[0].bgImage} priority quality={100} alt="" sizes="100%" fill className="absolute object-cover" />
-        <BoardNav boardsData={boardsData} selectedBoardId={boardId} />
-        <div className="flex gap-4 p-4 top-8 md:top-0 relative overflow-x-scroll h-[100vh]">
-            {listsData.filter(l => l.boardId == boardId).map((l, i) => <List key={i} listData={l} />)}
+    return <>
+        <div className="flex">
+            <Image src={boardsData.filter(b => b.id == boardId)[0].bgImage} priority quality={100} alt="" sizes="100%" fill className="absolute object-cover" />
+            <BoardNav boardsData={boardsData} selectedBoardId={boardId} />
+            <div className="flex gap-4 p-4 top-8 md:top-0 relative overflow-x-scroll h-[100vh]">
+                {listsData.filter(l => l.boardId == boardId).map((l, i) => <List key={i} listData={l} itemsData={itemsData} />)}
+            </div>
         </div>
-    </div>
+
+        {i != null && i != undefined && <EditItem listsData={listsData} />}
+    </>
 }
 
 export default BoardPage;
