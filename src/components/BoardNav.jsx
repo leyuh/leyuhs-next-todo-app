@@ -11,12 +11,13 @@ const BoardNav = ({ boardsData, selectedBoardId }) => {
     const [showNav, setShowNav] = useState(false);
     const [showBoardOptionsModal, setShowBoardOptionsModal] = useState(false);
 
-    const boardOptionsRef = useRef();
+    const showBoardOptionsModalBtnRef = useRef();
+    const boardOptionsModalRef = useRef();
 
     useEffect(() => {
         const handleClick = (e) => {
             console.log(e)
-            if (e.target.parentElement.parentElement.className.indexOf("modal-btn") == -1 && e.target.parentElement.className.indexOf("modal-btn") == -1) {
+            if (!showBoardOptionsModalBtnRef.current.contains(e.target) && (boardOptionsModalRef.current == null || !boardOptionsModalRef.current.contains(e.target))) {
                 setShowBoardOptionsModal(false);
             }
         };
@@ -41,13 +42,13 @@ const BoardNav = ({ boardsData, selectedBoardId }) => {
                     <Link href={`/${b.id}`} className={`flex-wrap hover:underline 
                     ${selectedBoardId == b.id && "font-bold"}`}>{b.title}</Link>
                     {selectedBoardId == b.id && (
-                        <button ref={boardOptionsRef} className="text-white modal-btn" onClick={() => setShowBoardOptionsModal(prev => !prev)}><EllipsisVertical dimensions="size-5" /></button>
+                        <button ref={showBoardOptionsModalBtnRef} className="text-white modal-btn" onClick={() => setShowBoardOptionsModal(prev => !prev)}><EllipsisVertical dimensions="size-5" /></button>
                     )}
                 </li>)}
             </ul>
         </div>
 
-        {showBoardOptionsModal && <BoardOptionsModal btnRef={boardOptionsRef} />}
+        {showBoardOptionsModal && <BoardOptionsModal btnRef={showBoardOptionsModalBtnRef} modalRef={boardOptionsModalRef} />}
     </>
     
 
