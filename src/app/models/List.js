@@ -5,6 +5,6 @@ const listSchema = new Schema({
     boardId: Types.ObjectId
 }, { timestamps: true });
 
-const List = models?.List || model("List", listSchema);
+const ListModel = models?.List || model("List", listSchema);
 
-export default List;
+export default ListModel;

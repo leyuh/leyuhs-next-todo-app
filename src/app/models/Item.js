@@ -7,6 +7,6 @@ const itemSchema = new Schema({
     listId: Types.ObjectId
 }, { timestamps: true });
 
-const Item = models?.Item || model("Item", itemSchema);
+const ItemModel = models?.Item || model("Item", itemSchema);
 
-export default Item;
+export default ItemModel;

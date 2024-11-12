@@ -6,8 +6,15 @@ import Board from "@/components/Board";
 import BoardModel from "./models/Board";
 import connectDB from "@/config/database";
 
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
+
+  const session = await getServerSession(authOptions);
+
+  console.log(session);
 
   const getBoards = async () => {
     await connectDB();
@@ -17,29 +24,8 @@ export default async function Home() {
   }
   
   const boardsData = await getBoards();
-  /*const boardsData = [
-    {
-      id: 0,
-      title: "My board",
-      bgImage: "/bg-1.jpg",
-      isStarred: false,
-      userId: "000",
-    },
-    {
-      id: 1,
-      title: "My second board",
-      bgImage: "/bg-2.jpg",
-      isStarred: false,
-      userId: "000",
-    },
-    {
-      id: 2,
-      title: "My most favorite board",
-      bgImage: "/bg-3.jpg",
-      isStarred: true,
-      userId: "000",
-    }
-  ]*/
+
+  if (!session) redirect("/login");
 
   return <div className="p-2 md:p-4 px-4 md:px-8 md:mt-8">
     <div>
