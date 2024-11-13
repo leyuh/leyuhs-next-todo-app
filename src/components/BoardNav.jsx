@@ -17,7 +17,8 @@ const BoardNav = ({ boardsData, selectedBoardId }) => {
     useEffect(() => {
         const handleClick = (e) => {
             console.log(e)
-            if (!showBoardOptionsModalBtnRef.current.contains(e.target) && (boardOptionsModalRef.current == null || !boardOptionsModalRef.current.contains(e.target))) {
+
+            if (!showBoardOptionsModalBtnRef.current || (!showBoardOptionsModalBtnRef.current.contains(e.target)) && (boardOptionsModalRef.current == null || !boardOptionsModalRef.current.contains(e.target))) {
                 setShowBoardOptionsModal(false);
             }
         };
@@ -39,9 +40,9 @@ const BoardNav = ({ boardsData, selectedBoardId }) => {
             </button>
             <ul className="text-lg mt-8 md:mt-0">
                 {boardsData.map((b, i) => <li className="flex justify-between mt-2 mb-4 pl-2 text-xl gap-1 items-center" key={i}>
-                    <Link href={`/${b.id}`} className={`flex-wrap hover:underline 
-                    ${selectedBoardId == b.id && "font-bold"}`}>{b.title}</Link>
-                    {selectedBoardId == b.id && (
+                    <Link href={`/${b._id}`} className={`flex-wrap hover:underline 
+                    ${selectedBoardId == b._id && "font-bold"}`}>{b.title}</Link>
+                    {selectedBoardId == b._id && (
                         <button ref={showBoardOptionsModalBtnRef} className="text-white modal-btn" onClick={() => setShowBoardOptionsModal(prev => !prev)}><EllipsisVertical dimensions="size-5" /></button>
                     )}
                 </li>)}

@@ -1,3 +1,5 @@
+import BoardModel from "../models/Board";
+import connectDB from "@/config/database";
 
 import Image from "next/image";
 
@@ -10,29 +12,12 @@ const BoardPage = async ({ params, searchParams }) => {
     const { boardId } = await params;
     const { i } = await searchParams || null;
 
-    const boardsData = [
-        {
-          id: 0,
-          title: "My board",
-          bgImage: "/bg-1.jpg",
-          isStarred: false,
-          userId: "000",
-        },
-        {
-          id: 1,
-          title: "My second board",
-          bgImage: "/bg-2.jpg",
-          isStarred: false,
-          userId: "000",
-        },
-        {
-          id: 2,
-          title: "My most favorite board",
-          bgImage: "/bg-3.jpg",
-          isStarred: true,
-          userId: "000",
-        }
-    ]
+    const getBoardsData = async () => {
+        await connectDB();
+        let boardsData = await BoardModel.find();
+
+        return boardsData;
+    }
 
     const listsData = [
         {
@@ -64,12 +49,14 @@ const BoardPage = async ({ params, searchParams }) => {
         },
     ]
 
-    console.log(boardId);
+    const boardsData = await getBoardsData();
+    const boardData = boardsData.filter(b => b._id == boardId)[0];
+    console.log(boardData);
 
     return <>
         <div className="flex">
-            <Image src={boardsData.filter(b => b.id == boardId)[0].bgImage} priority quality={100} alt="" sizes="100%" fill className="absolute object-cover" />
-            <BoardNav boardsData={boardsData} selectedBoardId={boardId} />
+            <Image src={boardData.backgroundImage} priority quality={100} alt="" sizes="100%" fill className="absolute object-cover" />
+            <BoardNav boardsData={JSON.parse(JSON.stringify(boardsData))} selectedBoardId={(boardData._id).toString()} />
             <div className="flex gap-4 p-4 top-8 md:top-0 relative overflow-x-scroll h-[100vh]">
                 {listsData.filter(l => l.boardId == boardId).map((l, i) => <List key={i} listData={l} itemsData={itemsData} />)}
             </div>

@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 const NavBar = () => {
     
     const { data: session } = useSession();
-    console.log(session);
 
     return <div className="flex text-white items-center bg-zinc-900 bg-opacity-85 z-20 relative justify-between h-16 px-4 md:px-8 text-lg w-full">
         <Link href="/">
