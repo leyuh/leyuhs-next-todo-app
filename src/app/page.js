@@ -11,11 +11,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 
-export default async function Home() {
+export default async function Home({ params, searchParams }) {
 
   const session = await getServerSession(authOptions);
-
   console.log(session);
+
+  const boardSearch = searchParams.title;
 
   const getBoardsData = async () => {
     await connectDB();
@@ -47,7 +48,7 @@ export default async function Home() {
       </div>
       
       <div className="flex flex-wrap gap-2 md:gap-4 mt-4 w-full justify-center sm:justify-start">
-        {boardsData.map((b, i) => <Board key={i} boardData={JSON.parse(JSON.stringify(b))} />)}
+        {boardsData.filter(b => (boardSearch == null || (b.title).toLowerCase().indexOf(boardSearch) != -1)).map((b, i) => <Board key={i} boardData={JSON.parse(JSON.stringify(b))} />)}
         <CreateBoardButton />
       </div>
     </div>

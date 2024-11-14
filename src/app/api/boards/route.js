@@ -36,7 +36,7 @@ export const PUT = async (req) => {
         await BoardModel.findByIdAndUpdate(_id, body);
 
         return NextResponse.json({ message: "Board updated." }, { status: 201 });
-    } catch {
+    } catch (error) {
         return NextResponse.json(
             { message: error.message },
             { status: 500 }

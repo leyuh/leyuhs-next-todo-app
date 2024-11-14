@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
+import { Plus } from "./Icons";
 
 const CreateBoardButton = () => {
 
@@ -27,9 +28,12 @@ const CreateBoardButton = () => {
     console.log(session);
 
     return <button
-        className="relative w-[120px] h-[120px] md:w-[150px] md:h-[150px] flex-shrink-0 rounded-lg overflow-hidden bg-zinc-100"
+        className="text-zinc-500 flex flex-col items-center justify-center gap-2 relative w-[160px] h-[120px] md:w-[200px] md:h-[150px] flex-shrink-0 rounded-lg overflow-hidden bg-zinc-100"
         onClick={(e) => createBoard(e)}
-    >Add New</button>
+    >
+        <Plus/>
+        <span>Create new board</span>
+    </button>
 }
 
 export default CreateBoardButton;

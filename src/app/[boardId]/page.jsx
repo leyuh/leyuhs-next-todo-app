@@ -1,11 +1,16 @@
-import BoardModel from "../models/Board";
+import Image from "next/image";
+
 import connectDB from "@/config/database";
 
-import Image from "next/image";
+import BoardModel from "../models/Board";
+import ListModel from "../models/List";
 
 import BoardNav from "@/components/BoardNav";
 import List from "@/components/List";
 import EditItem from "@/components/EditItem";
+import CreateListButton from "@/components/CreateListButton";
+
+import { Plus } from "@/components/Icons";
 
 const BoardPage = async ({ params, searchParams }) => {
 
@@ -19,18 +24,14 @@ const BoardPage = async ({ params, searchParams }) => {
         return boardsData;
     }
 
-    const listsData = [
-        {
-            id: 0,
-            boardId: 0,
-            title: "My List",
-        },
-        {
-            id: 1,
-            boardId: 0,
-            title: "My 2nd List",
-        },
-    ]
+    const getBoardListsData = async () => {
+        await connectDB();
+        const listsData = await ListModel.find({ boardId });
+
+        return listsData;
+    }
+
+    const listsData = await getBoardListsData();
 
     const itemsData = [
         {
@@ -54,11 +55,12 @@ const BoardPage = async ({ params, searchParams }) => {
     console.log(boardData);
 
     return <>
-        <div className="flex">
+        <div className="flex w-[100vw] overflow-hidden">
             <Image src={boardData.backgroundImage} priority quality={100} alt="" sizes="100%" fill className="absolute object-cover" />
             <BoardNav boardsData={JSON.parse(JSON.stringify(boardsData))} selectedBoardId={(boardData._id).toString()} />
             <div className="flex gap-4 p-4 top-8 md:top-0 relative overflow-x-scroll h-[100vh]">
-                {listsData.filter(l => l.boardId == boardId).map((l, i) => <List key={i} listData={l} itemsData={itemsData} />)}
+                {listsData.filter(l => l.boardId == boardId).map((l, i) => <List key={i} listData={JSON.parse(JSON.stringify(l))} itemsData={itemsData} />)}
+                <CreateListButton boardId={(boardData._id).toString()} />
             </div>
         </div>
 

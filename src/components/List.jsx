@@ -4,7 +4,7 @@ import Item from "./Item";
 import { EllipsisVertical } from "./Icons";
 
 const List = ({ listData, itemsData }) => {
-    return <div className="flex text-lg flex-col p-2 w-[260px] rounded-md bg-zinc-100 bg-opacity-80 flex-shrink-0 h-min">
+    return <div className="flex shadow-md text-lg flex-col p-2 w-[260px] rounded-md bg-zinc-100 bg-opacity-80 flex-shrink-0 h-min">
         <div className="flex justify-between items-center ml-1 mt-2">
             <h3 className="">{listData.title}</h3>
             <button className="text-zinc-500 p-1 -mt-1"><EllipsisVertical dimensions="size-4" /></button>
