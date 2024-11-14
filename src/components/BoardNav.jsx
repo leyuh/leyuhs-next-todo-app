@@ -2,23 +2,38 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import BoardOptionsModal from "./BoardOptionsModal";
 import { ChevronLeft, ChevronRight, EllipsisVertical } from "./Icons";
 
 const BoardNav = ({ boardsData, selectedBoardId }) => {
 
+    const router = useRouter();
+
     // for mobile
     const [showNav, setShowNav] = useState(false);
+
     const [showBoardOptionsModal, setShowBoardOptionsModal] = useState(false);
+    const [showRenameInput, setShowRenameInput] = useState(false);
 
     const btnRef = useRef();
     const modalRef = useRef();
+    const renameRef = useRef();
+
+    const handleBoardNameClick = async (e, boardId) => {
+        console.log(showRenameInput);
+        if (!showRenameInput) renameRef.current.blur();
+
+        if (!showRenameInput) router.push(`/${boardId}`);
+        setShowRenameInput(false);
+    }
 
     useEffect(() => {
         const handleClick = (e) => {
             if (!btnRef.current || (!btnRef.current.contains(e.target)) && (modalRef.current == null || !modalRef.current.contains(e.target))) {
                 setShowBoardOptionsModal(false);
             }
+
         };
     
         document.addEventListener('click', handleClick);
@@ -27,6 +42,13 @@ const BoardNav = ({ boardsData, selectedBoardId }) => {
           document.removeEventListener('click', handleClick);
         };
     }, []);
+
+    useEffect(() => {
+        console.log(showRenameInput);
+        if (!showRenameInput) return;
+
+        renameRef.current.focus();
+    }, [showRenameInput])
 
     return <>
         {!showNav && <button className="md:hidden mt-4 ml-4 z-20 absolute text-white" onClick={() => setShowNav(true)}>
@@ -38,16 +60,31 @@ const BoardNav = ({ boardsData, selectedBoardId }) => {
             </button>
             <ul className="text-lg mt-8 md:mt-0">
                 {boardsData.map((b, i) => <li className="flex justify-between mt-2 mb-4 pl-2 text-xl gap-1 items-center" key={i}>
-                    <Link href={`/${b._id}`} className={`flex-wrap hover:underline 
-                    ${selectedBoardId == b._id && "font-bold"}`}>{b.title}</Link>
+
+                    <input
+                        ref={b._id == selectedBoardId ? renameRef : null}
+                        type="text"
+                        className={`bg-transparent ${b._id == selectedBoardId && showRenameInput ? "" : "outline-none"} flex-wrap hover:underline cursor-pointer ${selectedBoardId == b._id && "font-bold"}`}
+                        style={b._id == selectedBoardId && showRenameInput ? {}: {"caretColor": "transparent"}}
+                        defaultValue={b.title}
+
+                        onClick={(e) => handleBoardNameClick(e, b._id)}
+                    />
+
                     {selectedBoardId == b._id && (
                         <button ref={btnRef} className="text-white modal-btn" onClick={() => setShowBoardOptionsModal(prev => !prev)}><EllipsisVertical dimensions="size-5" /></button>
                     )}
+         
                 </li>)}
             </ul>
         </div>
 
-        {showBoardOptionsModal && <BoardOptionsModal btnRef={btnRef} modalRef={modalRef} boardId={selectedBoardId} />}
+        {showBoardOptionsModal && <BoardOptionsModal
+            btnRef={btnRef}
+            modalRef={modalRef}
+            boardId={selectedBoardId}
+            setShowRenameInput={setShowRenameInput}
+        />}
     </>
     
 

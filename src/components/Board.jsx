@@ -27,7 +27,7 @@ const Board = ({ boardData }) => {
     }
 
 
-    return <div className="relative w-[160px] h-[120px] md:w-[200px] md:h-[150px] flex-shrink-0 rounded-lg overflow-hidden">
+    return <div className="hover:shadow-none transition-all shadow-sm relative w-[160px] h-[120px] md:w-[200px] md:h-[150px] flex-shrink-0 rounded-lg overflow-hidden">
         <Image src={boardData.backgroundImage} alt="" fill sizes="200px" className="hover:blur-sm hover:brightness-75 transition-all duration-300" />
         <h1 className="tracking-wide text-white text-lg md:text-xl font-bold z-10 absolute p-2 md:p-3">{boardData.title}</h1>
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import BackgroundModal from "./BackgroundModal";
 
-const BoardOptionsModal = ({ btnRef, modalRef, boardId }) => {
+const BoardOptionsModal = ({ btnRef, modalRef, boardId, setShowRenameInput }) => {
 
     const [showBackgroundModal, setShowBackgroundModal] = useState(false);
 
@@ -19,7 +19,7 @@ const BoardOptionsModal = ({ btnRef, modalRef, boardId }) => {
 
     return <div ref={modalRef} className="flex gap-2 absolute" style={{...getModalPosition()}}>
         <div className={`flex flex-col z-10 gap-2 bg-zinc-100 rounded-sm p-2 flex-grow-0 h-min`}>
-            <button className="text-left">Rename</button>
+            <button className="text-left" onClick={() => setShowRenameInput(prev => !prev)}>Rename</button>
             <button className="text-left" onClick={() => setShowBackgroundModal(prev => !prev)}>Change Background</button>
             <button className="text-left">Delete</button>
         </div>
