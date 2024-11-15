@@ -1,6 +1,11 @@
 "use client"
 
+import { useRouter } from "next/navigation";
+
 const ListOptionsModal = ({ modalRef, selectedListBtn, optionsModalListId }) => {
+    const router = useRouter();
+
+    console.log(selectedListBtn, optionsModalListId);
 
     const handleListDelete = async () => {
         // delete list's items
@@ -24,6 +29,8 @@ const ListOptionsModal = ({ modalRef, selectedListBtn, optionsModalListId }) => 
                 _id: optionsModalListId
             })
         })
+
+        router.refresh();
     }
 
     const getModalPosition = () => {
@@ -31,13 +38,13 @@ const ListOptionsModal = ({ modalRef, selectedListBtn, optionsModalListId }) => 
         const buttonRect = selectedListBtn.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
 
-        let top = buttonRect.bottom + 4;
-        let left = Math.min(buttonRect.left, (viewportWidth - 165));
+        let top = buttonRect.bottom - 60;
+        let left = buttonRect.left - 295;
         
         return { top, left };
     }
 
-    return <div ref={modalRef} className={` w-[180px] flex flex-col absolute z-10 gap-2 bg-zinc-100 rounded-sm p-2 flex-grow-0 h-min`} style={{...getModalPosition()}} >
+    return <div ref={modalRef} className={`shadow-sm w-[180px] flex flex-col absolute z-10 gap-2 bg-zinc-100 rounded-sm p-2 flex-grow-0 h-min`} style={{...getModalPosition()}} >
         <button className="text-left" onClick={() => {
             //setShowRenameInput(prev => !prev); 
             //setShowBoardOptionsModal(false)

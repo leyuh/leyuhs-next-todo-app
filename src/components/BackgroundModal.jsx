@@ -77,7 +77,7 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
         getImagesData();
     }, [])
 
-    return <div className="bg-white rounded-sm p-[10px] w-[325px] z-20 fixed top-8 sm:top-0 left-[50%] -translate-x-1/2 sm:relative sm:left-0 sm:translate-x-0">
+    return <div className="bg-white shadow-sm rounded-sm p-[10px] w-[325px] z-20 fixed top-8 sm:top-0 left-[50%] -translate-x-1/2 sm:relative sm:left-0 sm:translate-x-0">
         <div className="w-full flex justify-between items-center mt-2">
 
             <form onSubmit={handleSearch} className="flex bg-zinc-100 rounded-md px-2 py-1 text-md gap-4 items-center">
