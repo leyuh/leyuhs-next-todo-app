@@ -9,12 +9,15 @@ import ListOptionsModal from "./ListOptionsModal";
 const List = ({ listData, itemsData }) => {
 
     const router = useRouter();
+
     const btnRef = useRef();
     const modalRef = useRef();
+    const renameRef = useRef();
 
     const [optionsModalListId, setOptionsModalListId] = useState(null);
+    const [showRenameInput, setShowRenameInput] = useState(false);
 
-    useEffect(() => {console.log(btnRef.current)}, [btnRef]);
+
     // Close modal on outside click
     useEffect(() => {
         const handleClick = (e) => {
@@ -29,6 +32,35 @@ const List = ({ listData, itemsData }) => {
           document.removeEventListener('click', handleClick);
         };
     }, []);
+
+    const handleRename = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const title = formData.get("title");
+
+        const res = await fetch("/api/lists", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                _id: listData._id,
+                title
+            })
+        });
+
+        setShowRenameInput(false);
+        router.refresh();
+    }
+
+    useEffect(() => {
+        if (!showRenameInput) return;
+
+        renameRef.current.focus();
+    }, [showRenameInput])
+
+
 
     const createItem = async () => {
 
@@ -50,7 +82,23 @@ const List = ({ listData, itemsData }) => {
         <div className="flex shadow-md text-lg flex-col p-2 w-[260px] rounded-md bg-zinc-100 bg-opacity-80 flex-shrink-0 h-min">
             <div className="flex justify-between items-center ml-1 mt-2">
 
-                <h3>{listData.title}</h3>
+                
+                <form onSubmit={handleRename}>
+                    <input
+                        ref={renameRef}
+                        type="text"
+                        name="title"
+                        className={`pl-1 -ml-1 bg-transparent ${(showRenameInput) ? "" : "outline-none"} flex-wrap focus:outline-primary`}
+                        style={(showRenameInput) ? {} : {"caretColor": "transparent"}}
+                        defaultValue={listData.title}
+                        disabled={(showRenameInput) ? false : true}
+                        onBlur={() => {
+                            renameRef.current.value = listData.title;
+                            setShowRenameInput(false);
+                        }}
+                    />
+                </form>
+
                 <button
                     ref={btnRef}
                     className="text-zinc-500 p-1 -mt-1"
@@ -75,6 +123,7 @@ const List = ({ listData, itemsData }) => {
             modalRef={modalRef}
             selectedListBtn={btnRef.current}
             optionsModalListId={optionsModalListId}
+            setShowRenameInput={setShowRenameInput}
         />}
     </>
 }

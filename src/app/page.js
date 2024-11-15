@@ -38,19 +38,19 @@ export default async function Home({ params, searchParams }) {
       {boardsData.filter(b => b.isStarred).length > 0 && (
         <div className="sm:mb-12">
           <h1 className="text-2xl tracking-wide">Favorite Boards</h1>
-          <div className="flex overflow-y-scroll gap-2 md:gap-4 mt-2">
+          <div className="flex overflow-y-scroll gap-2 md:gap-4 mt-2 max-h-[130px] md:max-h-[160px] overflow-x-scroll">
             {boardsData.filter(b => b.isStarred).map((b, i) => <Board key={i} boardData={JSON.parse(JSON.stringify(b))} />)}
           </div>
         </div>
       )}
 
-      <div className="mt-0">
+      <div className="mt-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:gap-8">
           <h1 className="text-2xl tracking-wide">All Boards</h1>
           <SearchBar />
         </div>
         
-        <div className="flex flex-wrap gap-2 md:gap-4 mt-4 w-full justify-center sm:justify-start">
+        <div className="flex flex-wrap gap-2 md:gap-4 mt-4 w-full justify-center sm:justify-start max-h-[calc(100vh-350px)] sm:max-h-auto overflow-y-scroll">
           {boardsData.filter(b => (boardSearch == null || (b.title).toLowerCase().indexOf(boardSearch) != -1)).map((b, i) => <Board key={i} boardData={JSON.parse(JSON.stringify(b))} />)}
           <CreateBoardButton />
         </div>

@@ -90,7 +90,7 @@ const BoardNav = ({ boardsData, selectedBoardId, backgroundColor }) => {
                             ref={b._id == selectedBoardId ? renameRef : null}
                             type="text"
                             name="title"
-                            className={`bg-transparent ${b._id == selectedBoardId && showRenameInput ? "" : "outline-none hover:underline cursor-pointer"} flex-wrap ${selectedBoardId == b._id && "font-bold"}`}
+                            className={`pl-1 -ml-1 bg-transparent ${b._id == selectedBoardId && showRenameInput ? "focus:outline-primary" : "outline-none hover:underline cursor-pointer"} flex-wrap ${selectedBoardId == b._id && "font-bold"}`}
                             style={b._id == selectedBoardId && showRenameInput ? {}: {"caretColor": "transparent"}}
                             defaultValue={b.title}
                             onBlur={() => {

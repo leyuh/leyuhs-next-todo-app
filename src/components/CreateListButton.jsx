@@ -21,7 +21,7 @@ const CreateListButton = ({ boardId }) => {
 
 
     return <button
-        className="shadow-md flex items-center gap-2 text-zinc-500 flex-row text-lg p-2 w-[260px] h-[40px] rounded-md bg-zinc-100 bg-opacity-80 flex-shrink-0"
+        className="shadow-sm hover:shadow-md transition-all flex items-center gap-2 text-zinc-500 flex-row text-lg p-2 w-[260px] h-[40px] rounded-md bg-zinc-100 bg-opacity-80 flex-shrink-0"
         onClick={() => createList()}
     >
         <Plus /> <span>Create new list</span>

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-const ListOptionsModal = ({ modalRef, selectedListBtn, optionsModalListId }) => {
+const ListOptionsModal = ({ modalRef, selectedListBtn, optionsModalListId, setShowRenameInput }) => {
     const router = useRouter();
 
     console.log(selectedListBtn, optionsModalListId);
@@ -46,8 +46,7 @@ const ListOptionsModal = ({ modalRef, selectedListBtn, optionsModalListId }) => 
 
     return <div ref={modalRef} className={`shadow-sm w-[180px] flex flex-col absolute z-10 gap-2 bg-zinc-100 rounded-sm p-2 flex-grow-0 h-min`} style={{...getModalPosition()}} >
         <button className="text-left" onClick={() => {
-            //setShowRenameInput(prev => !prev); 
-            //setShowBoardOptionsModal(false)
+            setShowRenameInput(prev => !prev); 
         }}>Rename</button>
         <button
             className="text-left"

@@ -35,7 +35,7 @@ const BoardPage = async ({ params, searchParams }) => {
 
         return <>
             <NavBar />
-            <BoardNav boardsData={JSON.parse(JSON.stringify(boardsData))} selectedBoardId={null} backgroundColor={"#ddd"} />
+            <BoardNav boardsData={JSON.parse(JSON.stringify(boardsData))} selectedBoardId={null} backgroundColor={"#18181B"} />
         </>
     }
 
