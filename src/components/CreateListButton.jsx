@@ -7,9 +7,7 @@ const CreateListButton = ({ boardId }) => {
 
     const router = useRouter();
 
-    const createList = async (e) => {
-        e.preventDefault();
-
+    const createList = async () => {
         const res = await fetch("/api/lists", {
             method: "POST",
             headers: {
@@ -24,7 +22,7 @@ const CreateListButton = ({ boardId }) => {
 
     return <button
         className="shadow-md flex items-center gap-2 text-zinc-500 flex-row text-lg p-2 w-[260px] h-[40px] rounded-md bg-zinc-100 bg-opacity-80 flex-shrink-0"
-        onClick={(e) => createList(e)}
+        onClick={() => createList()}
     >
         <Plus /> <span>Create new list</span>
     </button>

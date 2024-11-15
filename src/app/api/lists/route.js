@@ -22,3 +22,37 @@ export const POST = async (req) => {
         )
     }
 }
+
+export const PUT = async (req) => {
+    try {
+        const {_id, ...body} = await req.json();
+
+        await connectDB();
+
+        await ListModel.findByIdAndUpdate(_id, body);
+
+        return NextResponse.json({ message: "List updated." }, { status: 201 });
+    } catch (error) {
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        )
+    }
+}
+
+export const DELETE = async (req) => {
+    try {
+        const { _id } = await req.json();
+
+        await connectDB();
+
+        await ListModel.deleteOne({ _id });
+
+        return NextResponse.json({ message: "List deleted." }, { status: 201 });
+    } catch (error) {
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        )
+    }
+}

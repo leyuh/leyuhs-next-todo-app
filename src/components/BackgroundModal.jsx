@@ -61,7 +61,8 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
             },
             body: JSON.stringify({
                 _id: boardId,
-                backgroundImage: imageData.src.large2x
+                backgroundImage: imageData.src.large2x,
+                backgroundColor: imageData.avg_color
             })
         });
 
@@ -84,7 +85,7 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
                 <button type="submit" className="w-6 text-zinc-500 cursor-pointer"><Search /></button>
             </form>
 
-            <button onClick={() => setShowBackgroundModal(false)}>
+            <button onClick={() => setShowBackgroundModal(prev => !prev)}>
                 <Close />
             </button>
         </div>

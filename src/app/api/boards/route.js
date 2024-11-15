@@ -13,7 +13,8 @@ export const POST = async (req) => {
 
         await BoardModel.create({
             title: "My board",
-            backgroundImage: "https://images.pexels.com/photos/36487/above-adventure-aerial-air.jpg",
+            backgroundImage: "https://images.pexels.com/photos/2166711/pexels-photo-2166711.jpeg",
+            backgroundColor: "#bbc4c4",
             isStarred: false,
             userId: body._id
         });
@@ -36,6 +37,23 @@ export const PUT = async (req) => {
         await BoardModel.findByIdAndUpdate(_id, body);
 
         return NextResponse.json({ message: "Board updated." }, { status: 201 });
+    } catch (error) {
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        )
+    }
+}
+
+export const DELETE = async (req) => {
+    try {
+        const { _id } = await req.json();
+
+        await connectDB();
+
+        await BoardModel.deleteOne({ _id });
+
+        return NextResponse.json({ message: "Board deleted." }, { status: 201 });
     } catch (error) {
         return NextResponse.json(
             { message: error.message },
