@@ -3,10 +3,12 @@
 import Item from "./Item";
 import { EllipsisVertical } from "./Icons";
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
-const List = ({ listData, itemsData }) => {
+const List = ({ listData, itemsData, setSelectedListBtn, optionsModalListId, setOptionsModalListId }) => {
 
     const router = useRouter();
+    const btnRef = useRef();
 
     const createItem = async () => {
 
@@ -30,7 +32,13 @@ const List = ({ listData, itemsData }) => {
 
                 <h3>{listData.title}</h3>
                 <button
+                    ref={btnRef}
                     className="text-zinc-500 p-1 -mt-1"
+                    onClick={(e) => {
+                        console.log("!");
+                        setOptionsModalListId(prev => prev == listData._id ? null : listData._id);
+                        setSelectedListBtn(prev => prev == btnRef.current ? null : btnRef.current);
+                    }}
                 ><EllipsisVertical dimensions="size-4" /></button>
             </div>
             <ul>

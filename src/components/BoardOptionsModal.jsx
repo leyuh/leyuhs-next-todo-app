@@ -33,7 +33,7 @@ const BoardOptionsModal = ({ btnRef, modalRef, boardId, setShowRenameInput, setS
     }
 
     return <div ref={modalRef} className="flex gap-2 absolute" style={{...getModalPosition()}}>
-        <div className={`flex flex-col z-10 gap-2 bg-zinc-100 rounded-sm p-2 flex-grow-0 h-min`}>
+        <div className={`flex flex-col z-10 gap-2 bg-zinc-100 rounded-sm p-2 flex-grow-0 h-min w-[180px]`}>
             <button className="text-left" onClick={() => {
                 setShowRenameInput(prev => !prev); 
                 setShowBoardOptionsModal(false)

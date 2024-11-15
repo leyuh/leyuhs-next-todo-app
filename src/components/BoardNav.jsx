@@ -50,6 +50,7 @@ const BoardNav = ({ boardsData, selectedBoardId, backgroundColor }) => {
         }
     }
 
+    // Close modal on outside click
     useEffect(() => {
         const handleClick = (e) => {
             if (!btnRef.current || (!btnRef.current.contains(e.target)) && (modalRef.current == null || !modalRef.current.contains(e.target))) {
