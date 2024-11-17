@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AnimatePresence } from "framer-motion";
 
 import SearchBar from "@/components/SearchBar";
 import Board from "@/components/Board";
@@ -39,7 +40,11 @@ export default async function Home({ params, searchParams }) {
         <div className="sm:mb-12">
           <h1 className="text-2xl tracking-wide">Favorite Boards</h1>
           <div className="flex overflow-y-scroll gap-2 md:gap-4 mt-2 max-h-[130px] md:max-h-[160px] overflow-x-scroll">
-            {boardsData.filter(b => b.isStarred).map((b, i) => <Board key={i} boardData={JSON.parse(JSON.stringify(b))} />)}
+            <AnimatePresence>
+            {boardsData.filter(b => b.isStarred).map((b, i) => (
+              <Board key={i} boardData={JSON.parse(JSON.stringify(b))} />
+            ))}
+            </AnimatePresence>
           </div>
         </div>
       )}

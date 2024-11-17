@@ -1,5 +1,5 @@
 "use client"
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -32,19 +32,22 @@ const ListOptionsModal = ({ modalRef, selectedListBtn, optionsModalListId, setSh
         return { top, left };
     }
 
-    return <motion.div
-        ref={modalRef}
-        className={`modal shadow-sm w-[180px] flex flex-col absolute z-10 bg-zinc-100 rounded-sm flex-grow-0 h-min`}
-        style={{...getModalPosition()}}
-        initial={{ y: -10, opacity: 0 }}
-        animate={{ y: 0, opacity: 100 }}
-        transition={{ duration: 0.1, ease: "easeOut" }}
-    >
-        <button onClick={() => {
-            setShowRenameInput(prev => !prev); 
-        }}>Rename</button>
-        <button onClick={() => handleListDelete()}>Delete</button>
-    </motion.div>
+    return <AnimatePresence>
+        <motion.div
+            ref={modalRef}
+            className={`modal shadow-sm w-[180px] flex flex-col absolute z-10 bg-zinc-100 rounded-sm flex-grow-0 h-min`}
+            style={{...getModalPosition()}}
+            initial={{ y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 100 }}
+            exit={{ y: -10, opacity: 0 }}
+            transition={{ duration: 0.1, ease: "easeOut" }}
+        >
+            <button onClick={() => {
+                setShowRenameInput(prev => !prev); 
+            }}>Rename</button>
+            <button onClick={() => handleListDelete()}>Delete</button>
+        </motion.div>
+    </AnimatePresence>
 }
 
 export default ListOptionsModal;

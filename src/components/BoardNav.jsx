@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import BoardOptionsModal from "./BoardOptionsModal";
 import { ChevronLeft, ChevronRight, EllipsisVertical } from "./Icons";
 
-const BoardNav = ({ boardsData, selectedBoardId, backgroundColor }) => {
+const BoardNav = ({ boardsData, selectedBoardId, backgroundColor, defaultShowNav=false }) => {
 
     const router = useRouter();
 
     // for mobile
-    const [showNav, setShowNav] = useState(false);
+    const [showNav, setShowNav] = useState(defaultShowNav);
 
     const [showBoardOptionsModal, setShowBoardOptionsModal] = useState(false);
     const [showRenameInput, setShowRenameInput] = useState(false);
@@ -80,18 +80,18 @@ const BoardNav = ({ boardsData, selectedBoardId, backgroundColor }) => {
         {!showNav && <button className="md:hidden mt-4 ml-4 z-20 absolute text-white" onClick={() => setShowNav(true)}>
             <ChevronRight />
         </button>}
-        <AnimatePresence AnimatePresence mode="wait">
+        <AnimatePresence>
             {(showNav || window.innerWidth >= 768) && <motion.div
-                className={`md:block text-white p-4 w-[300px] h-[calc(100vh-64px)] relative flex-shrink-0`}
-                style={{ backgroundColor: backgroundColor + "AA" }}
-                initial={{ x: -300, opacity: 0 }}
+                className={`transition-colors duration-100 md:block text-white p-4 w-[300px] h-[calc(100vh-64px)] relative flex-shrink-0`}
+                style={{ backgroundColor: backgroundColor + "AA", zIndex: "10 !important" }}
+                initial={(window.innerWidth <  768 && !defaultShowNav) ? { x: -300, opacity: 0 } : { x: 0, opacity: 1 }}
                 animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -300, opacity: 0 }}
+                exit={(window.innerWidth <  768  && !defaultShowNav) ? { x: -300, opacity: 0 } : { x: 0, opacity: 1 }}
                 transition={{ duration: 0.1, ease: "linear" }}
             >
-                <button className="md:hidden right-0 absolute mr-4" onClick={() => setShowNav(false)}>
+                {!defaultShowNav && <button className="md:hidden right-0 absolute mr-4" onClick={() => setShowNav(false)}>
                     <ChevronLeft />
-                </button>
+                </button>}
                 <ul className="text-lg mt-8 md:mt-0">
                     {boardsData.map((b, i) => <li className="flex justify-between mt-2 mb-4 pl-2 text-xl gap-1 items-center" key={i}>
 

@@ -80,7 +80,9 @@ const List = ({ listData, itemsData }) => {
     }
 
     return <>
-        <div className="flex shadow-md text-lg flex-col p-2 w-[260px] rounded-md bg-gray-100 bg-opacity-80 flex-shrink-0 h-min">
+        <div
+            className="flex shadow-md text-lg flex-col p-2 w-[260px] rounded-md bg-gray-100 bg-opacity-80 flex-shrink-0 h-min"
+        >
             <div className="flex justify-between items-center ml-1 mt-2">
 
                 

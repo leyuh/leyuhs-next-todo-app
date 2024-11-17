@@ -29,7 +29,7 @@ const BoardOptionsModal = ({ btnRef, modalRef, boardId, setShowRenameInput, setS
         const buttonRect = btnRef.current.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
 
-        let top = buttonRect.bottom + 4;
+        let top = buttonRect.bottom - 55;
         let left = Math.min(buttonRect.left, (viewportWidth - 185));
         
         return { top, left };

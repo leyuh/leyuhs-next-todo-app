@@ -11,6 +11,7 @@ import List from "@/components/List";
 import EditItem from "@/components/EditItem";
 import CreateListButton from "@/components/CreateListButton";
 import NavBar from "@/components/NavBar";
+import BackgroundImage from "@/components/BackgroundImage";
 
 import { Plus } from "@/components/Icons";
 import { redirect } from "next/navigation";
@@ -35,7 +36,12 @@ const BoardPage = async ({ params, searchParams }) => {
 
         return <>
             <NavBar />
-            <BoardNav boardsData={JSON.parse(JSON.stringify(boardsData))} selectedBoardId={null} backgroundColor={"#18181B"} />
+            <BoardNav
+                boardsData={JSON.parse(JSON.stringify(boardsData))}
+                selectedBoardId={null}
+                backgroundColor={"#18181B"} 
+                defaultShowNav={true}
+            />
         </>
     }
 
@@ -61,8 +67,17 @@ const BoardPage = async ({ params, searchParams }) => {
 
     return <>
         <NavBar backgroundColor={boardData.backgroundColor} />
-        <div className={`flex w-[100vw] overflow-hidden bg-[${boardData.backgroundColor}]`}>
-            <Image src={boardData.backgroundImage} priority quality={100} alt="" sizes="100%" fill className="absolute object-cover object-center" />
+        <div className={`flex w-[100vw] relative`}>
+
+            <div className="absolute w-full h-full z-0 -top-[64px]" style={{
+                backgroundColor: boardData.backgroundColor
+            }}>
+                <BackgroundImage
+                    backgroundImage={boardData.backgroundImage} 
+                    backgroundColor={boardData.backgroundColor}
+                />
+            </div>
+            
             <BoardNav
                 boardsData={JSON.parse(JSON.stringify(boardsData))}
                 selectedBoardId={(boardData._id).toString()}

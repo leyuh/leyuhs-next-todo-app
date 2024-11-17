@@ -1,9 +1,10 @@
 "use client"
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Close, Search } from "./Icons";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PaginationBtn = ({ dir, page, setPage, itemCount, IMAGES_PER_PAGE }) => {
     let enabled = (dir == "right" && page < Math.floor(itemCount / IMAGES_PER_PAGE)) || (dir == "left" && page > 1);
@@ -26,6 +27,8 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
     const [images, setImages] = useState([]);
     const [pageImages, setPageImages] = useState([]);
 
+    const searchInputRef = useRef();
+
     const [page, setPage] = useState(1);
 
     const getImagesData = async (search="nature") => {
@@ -45,6 +48,8 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
 
     const handleSearch = (e) => {
         e.preventDefault();
+
+        searchInputRef.current.blur();
 
         const formData = new FormData(e.currentTarget);
         const title = formData.get("title") || "nature";
@@ -81,7 +86,7 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
         <div className="w-full flex justify-between items-center mt-2">
 
             <form onSubmit={handleSearch} className="flex bg-gray-100 rounded-md px-2 py-1 text-md gap-4 items-center">
-                <input className="grow bg-transparent w-[calc(100%-24px)] placeholder-gray-400 outline-none" type="text" name="title" placeholder="Search images" />
+                <input ref={searchInputRef} className="grow bg-transparent w-[calc(100%-24px)] placeholder-gray-400 outline-none" type="text" name="title" placeholder="Search images" />
                 <button type="submit" className="w-6 text-gray-500 cursor-pointer"><Search /></button>
             </form>
 
@@ -90,9 +95,16 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
             </button>
         </div>
         <div className="w-full flex flex-wrap gap-[5px] overflow-y-scroll mt-2">
-            {pageImages.map((image, i) => <button key={image.id} className="rounded-md relative w-[150px] h-[100px] overflow-hidden" onClick={() => handleImageClick(image)}>
+            {pageImages.map((image, i) => <motion.button
+                key={image.id}
+                className="rounded-md relative w-[150px] h-[100px] overflow-hidden"
+                onClick={() => handleImageClick(image)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 100 }}
+                transition={{ duration: 0.2, ease: "linear" }}
+            >
                 <Image alt={image.alt} src={image.src.original} fill sizes="100px" className="object-cover" />
-            </button>)}
+            </motion.button>)}
         </div>
         <div className="flex gap-2 items-center justify-center w-full my-2">
             <PaginationBtn dir="left" page={page} setPage={setPage} itemCount={images.length} IMAGES_PER_PAGE={IMAGES_PER_PAGE} />
