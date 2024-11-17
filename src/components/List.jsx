@@ -58,6 +58,7 @@ const List = ({ listData, itemsData }) => {
         if (!showRenameInput) return;
 
         renameRef.current.focus();
+        renameRef.current.value = "";
     }, [showRenameInput])
 
 
@@ -79,7 +80,7 @@ const List = ({ listData, itemsData }) => {
     }
 
     return <>
-        <div className="flex shadow-md text-lg flex-col p-2 w-[260px] rounded-md bg-zinc-100 bg-opacity-80 flex-shrink-0 h-min">
+        <div className="flex shadow-md text-lg flex-col p-2 w-[260px] rounded-md bg-gray-100 bg-opacity-80 flex-shrink-0 h-min">
             <div className="flex justify-between items-center ml-1 mt-2">
 
                 
@@ -88,9 +89,10 @@ const List = ({ listData, itemsData }) => {
                         ref={renameRef}
                         type="text"
                         name="title"
-                        className={`pl-1 -ml-1 bg-transparent ${(showRenameInput) ? "" : "outline-none"} flex-wrap focus:outline-primary`}
+                        className={`pl-1 -ml-1 bg-transparent ${(showRenameInput) ? "" : "outline-none"} flex-wrap`}
                         style={(showRenameInput) ? {} : {"caretColor": "transparent"}}
                         defaultValue={listData.title}
+                        placeholder={listData.title}
                         disabled={(showRenameInput) ? false : true}
                         onBlur={() => {
                             renameRef.current.value = listData.title;

@@ -1,5 +1,7 @@
 import connectDB from "@/config/database";
 import BoardModel from "@/app/models/Board";
+import ListModel from "@/app/models/List";
+import ItemModel from "@/app/models/Item";
 
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -51,7 +53,10 @@ export const DELETE = async (req) => {
 
         await connectDB();
 
+        await ItemModel.deleteMany({ boardId: _id });
+        await ListModel.deleteMany({ boardId: _id});
         await BoardModel.deleteOne({ _id });
+
 
         return NextResponse.json({ message: "Board deleted." }, { status: 201 });
     } catch (error) {

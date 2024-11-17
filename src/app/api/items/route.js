@@ -25,13 +25,30 @@ export const POST = async (req) => {
     }
 }
 
-export const DELETE = async (req) => {
+export const PUT = async (req) => {
     try {
-        const { ...body } = await req.json();
+        const {_id, ...body} = await req.json();
 
         await connectDB();
 
-        await ItemModel.deleteMany(body);
+        await ItemModel.findByIdAndUpdate(_id, body);
+
+        return NextResponse.json({ message: "Item updated." }, { status: 201 });
+    } catch (error) {
+        return NextResponse.json(
+            { message: error.message },
+            { status: 500 }
+        )
+    }
+}
+
+export const DELETE = async (req) => {
+    try {
+        const { _id } = await req.json();
+
+        await connectDB();
+
+        await ItemModel.deleteMany({ _id });
 
         return NextResponse.json({ message: "Item(s) deleted." }, { status: 201 });
     } catch (error) {

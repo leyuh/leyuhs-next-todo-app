@@ -5,3 +5,16 @@
 body {
     overflow: hidden;
 }
+
+
+input, textarea {
+    @apply outline-primary
+}
+
+.modal > button:hover {
+    @apply bg-gray-200;
+}
+
+.modal > button {
+    @apply px-2 py-[6px] text-left;
+}

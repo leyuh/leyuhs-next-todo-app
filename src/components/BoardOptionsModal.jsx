@@ -20,6 +20,8 @@ const BoardOptionsModal = ({ btnRef, modalRef, boardId, setShowRenameInput, setS
             },
             body: JSON.stringify({ _id: boardId })
         });
+
+        router.refresh();
     }
 
     const getModalPosition = () => {
@@ -33,13 +35,13 @@ const BoardOptionsModal = ({ btnRef, modalRef, boardId, setShowRenameInput, setS
     }
 
     return <div ref={modalRef} className="flex gap-2 absolute" style={{...getModalPosition()}}>
-        <div className={`flex shadow-sm flex-col z-10 gap-2 bg-zinc-100 rounded-sm p-2 flex-grow-0 h-min w-[180px]`}>
-            <button className="text-left" onClick={() => {
+        <div className={`flex modal shadow-sm flex-col z-10 bg-zinc-100 rounded-sm flex-grow-0 h-min w-[180px]`}>
+            <button onClick={() => {
                 setShowRenameInput(prev => !prev); 
                 setShowBoardOptionsModal(false)
             }}>Rename</button>
-            <button className="text-left" onClick={() => setShowBackgroundModal(prev => !prev)}>Change Background</button>
-            <button className="text-left" onClick={() => handleBoardDelete()}>Delete</button>
+            <button onClick={() => setShowBackgroundModal(prev => !prev)}>Change Background</button>
+            <button onClick={() => handleBoardDelete()}>Delete</button>
         </div>
         {showBackgroundModal && <BackgroundModal
             setShowBackgroundModal={setShowBackgroundModal} 

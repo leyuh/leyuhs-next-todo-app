@@ -75,7 +75,7 @@ const BoardPage = async ({ params, searchParams }) => {
             />
         </div>
 
-        {i != null && i != undefined && <EditItem listsData={JSON.parse(JSON.stringify(listsData))} />}
+        {i != null && i != undefined && <EditItem itemData={JSON.parse(JSON.stringify(itemsData.filter(item => item._id == i).length ? itemsData.filter(item => item._id == i)[0] : []))} />}
     </> 
 }
 

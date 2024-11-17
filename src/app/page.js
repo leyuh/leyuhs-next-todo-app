@@ -51,7 +51,7 @@ export default async function Home({ params, searchParams }) {
         </div>
         
         <div className="flex flex-wrap gap-2 md:gap-4 mt-4 w-full justify-center sm:justify-start max-h-[calc(100vh-350px)] sm:max-h-auto overflow-y-scroll">
-          {boardsData.filter(b => (boardSearch == null || (b.title).toLowerCase().indexOf(boardSearch) != -1)).map((b, i) => <Board key={i} boardData={JSON.parse(JSON.stringify(b))} />)}
+          {boardsData.filter(b => (boardSearch == null || (b.title).toLowerCase().indexOf(boardSearch.toLowerCase()) != -1)).map((b, i) => <Board key={i} boardData={JSON.parse(JSON.stringify(b))} />)}
           <CreateBoardButton />
         </div>
       </div>

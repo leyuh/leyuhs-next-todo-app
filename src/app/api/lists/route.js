@@ -1,5 +1,6 @@
 import connectDB from "@/config/database";
 import ListModel from "@/app/models/List";
+import ItemModel from "@/app/models/Item";
 
 import { NextResponse } from "next/server";
 
@@ -46,8 +47,9 @@ export const DELETE = async (req) => {
 
         await connectDB();
 
+        await ItemModel.deleteMany({ listId: _id });
         await ListModel.deleteOne({ _id });
-
+        
         return NextResponse.json({ message: "List deleted." }, { status: 201 });
     } catch (error) {
         return NextResponse.json(

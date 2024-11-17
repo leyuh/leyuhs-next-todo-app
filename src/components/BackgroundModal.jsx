@@ -12,7 +12,7 @@ const PaginationBtn = ({ dir, page, setPage, itemCount, IMAGES_PER_PAGE }) => {
         if (!enabled) return;
         setPage(prev => dir == "left" ? prev - 1 : prev + 1);
 
-    }} className={`p-1 rounded-sm bg-primary ${enabled ? "bg-primary" : "bg-zinc-300"} size-6 flex items-center justify-center text-white`}>
+    }} className={`p-1 rounded-sm bg-primary ${enabled ? "bg-primary" : "bg-gray-300"} size-6 flex items-center justify-center text-white`}>
         {dir == "left" ? <ChevronLeft /> : <ChevronRight />}
     </button>
 }
@@ -40,6 +40,7 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
         let data = await res.json();
         console.log(data);
         setImages(data.photos);
+        setPage(1);
     }
 
     const handleSearch = (e) => {
@@ -49,7 +50,6 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
         const title = formData.get("title") || "nature";
 
         getImagesData(title.toLowerCase());
-        setPage(1);
     }
 
     const handleImageClick = async (imageData) => {
@@ -80,9 +80,9 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
     return <div className="bg-white shadow-sm rounded-sm p-[10px] w-[325px] z-20 fixed top-8 sm:top-0 left-[50%] -translate-x-1/2 sm:relative sm:left-0 sm:translate-x-0">
         <div className="w-full flex justify-between items-center mt-2">
 
-            <form onSubmit={handleSearch} className="flex bg-zinc-100 rounded-md px-2 py-1 text-md gap-4 items-center">
-                <input className="grow bg-transparent w-[calc(100%-24px)] placeholder-zinc-400 outline-none" type="text" name="title" placeholder="Search images" />
-                <button type="submit" className="w-6 text-zinc-500 cursor-pointer"><Search /></button>
+            <form onSubmit={handleSearch} className="flex bg-gray-100 rounded-md px-2 py-1 text-md gap-4 items-center">
+                <input className="grow bg-transparent w-[calc(100%-24px)] placeholder-gray-400 outline-none" type="text" name="title" placeholder="Search images" />
+                <button type="submit" className="w-6 text-gray-500 cursor-pointer"><Search /></button>
             </form>
 
             <button onClick={() => setShowBackgroundModal(prev => !prev)}>
@@ -99,7 +99,7 @@ const BackgroundModal = ({ setShowBackgroundModal, boardId }) => {
             <span>{page}</span>
             <PaginationBtn dir="right" page={page} setPage={setPage} itemCount={images.length} IMAGES_PER_PAGE={IMAGES_PER_PAGE} />
         </div>
-        <p className="text-zinc-500 text-sm">Images provided by <a className="text-primary underline" href="http://pexels.com" target={"_blank"}>pexels.com</a>.</p>
+        <p className="text-gray-500 text-sm">Images provided by <a className="text-primary underline" href="http://pexels.com" target={"_blank"}>pexels.com</a>.</p>
     </div>
 }
 
