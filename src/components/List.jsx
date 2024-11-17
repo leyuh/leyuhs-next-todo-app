@@ -89,7 +89,7 @@ const List = ({ listData, itemsData }) => {
                         ref={renameRef}
                         type="text"
                         name="title"
-                        className={`pl-1 -ml-1 bg-transparent ${(showRenameInput) ? "" : "outline-none"} flex-wrap`}
+                        className={`w-full pl-1 -ml-1 bg-transparent ${(showRenameInput) ? "" : "outline-none"} flex-wrap`}
                         style={(showRenameInput) ? {} : {"caretColor": "transparent"}}
                         defaultValue={listData.title}
                         placeholder={listData.title}

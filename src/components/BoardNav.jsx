@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import BoardOptionsModal from "./BoardOptionsModal";
@@ -41,7 +41,8 @@ const BoardNav = ({ boardsData, selectedBoardId, backgroundColor }) => {
         router.refresh();
     }
 
-    const handleBoardNameClick = async (boardId) => {
+    const handleBoardNameClick = async (e, boardId) => {
+        e.preventDefault();
 
         if (!showRenameInput) {
             renameRef.current && renameRef.current.blur();
@@ -79,37 +80,48 @@ const BoardNav = ({ boardsData, selectedBoardId, backgroundColor }) => {
         {!showNav && <button className="md:hidden mt-4 ml-4 z-20 absolute text-white" onClick={() => setShowNav(true)}>
             <ChevronRight />
         </button>}
-        <div className={`${!showNav && "hidden"} md:block text-white p-4 w-[300px] h-[calc(100vh-64px)] relative flex-shrink-0`} style={{ backgroundColor: backgroundColor + "AA" }}>
-            <button className="md:hidden right-0 absolute mr-4" onClick={() => setShowNav(false)}>
-                <ChevronLeft />
-            </button>
-            <ul className="text-lg mt-8 md:mt-0">
-                {boardsData.map((b, i) => <li className="flex justify-between mt-2 mb-4 pl-2 text-xl gap-1 items-center" key={i}>
+        <AnimatePresence AnimatePresence mode="wait">
+            {(showNav || window.innerWidth >= 768) && <motion.div
+                className={`md:block text-white p-4 w-[300px] h-[calc(100vh-64px)] relative flex-shrink-0`}
+                style={{ backgroundColor: backgroundColor + "AA" }}
+                initial={{ x: -300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -300, opacity: 0 }}
+                transition={{ duration: 0.1, ease: "linear" }}
+            >
+                <button className="md:hidden right-0 absolute mr-4" onClick={() => setShowNav(false)}>
+                    <ChevronLeft />
+                </button>
+                <ul className="text-lg mt-8 md:mt-0">
+                    {boardsData.map((b, i) => <li className="flex justify-between mt-2 mb-4 pl-2 text-xl gap-1 items-center" key={i}>
 
-                    <form onSubmit={handleRename}>
-                        <input
-                            ref={b._id == selectedBoardId ? renameRef : null}
-                            type="text"
-                            name="title"
-                            className={`pl-1 -ml-1 bg-transparent ${b._id == selectedBoardId && showRenameInput ? "" : "outline-none hover:underline cursor-pointer"} flex-wrap ${selectedBoardId == b._id && "font-bold"}`}
-                            style={b._id == selectedBoardId && showRenameInput ? {}: {"caretColor": "transparent"}}
-                            placeholder={b.title}
-                            defaultValue={b.title}
-                            onBlur={() => {
-                                renameRef.current.value = b.title; 
-                                setShowRenameInput(false);
-                            }}
-                            onClick={() => handleBoardNameClick(b._id)}
-                        />
-                    </form>
+                        <form onSubmit={handleRename}>
+                            <input
+                                ref={b._id == selectedBoardId ? renameRef : null}
+                                type="text"
+                                name="title"
+                                className={`w-full pl-1 -ml-1 bg-transparent ${b._id == selectedBoardId && showRenameInput ? "" : "outline-none hover:underline cursor-pointer"} flex-wrap ${(selectedBoardId == b._id && !showRenameInput) && "font-bold"}`}
+                                style={b._id == selectedBoardId && showRenameInput ? {}: {"caretColor": "transparent"}}
+                                placeholder={b.title}
+                                defaultValue={b.title}
+                                readOnly={!(b._id == selectedBoardId && showRenameInput)}
+                                onBlur={() => {
+                                    renameRef.current.value = b.title; 
+                                    setShowRenameInput(false);
+                                }}
+                                onClick={(e) => handleBoardNameClick(e, b._id)}
+                            />
+                        </form>
 
-                    {selectedBoardId == b._id && (
-                        <button ref={btnRef} className="text-white modal-btn" onClick={() => setShowBoardOptionsModal(prev => !prev)}><EllipsisVertical dimensions="size-5" /></button>
-                    )}
-         
-                </li>)}
-            </ul>
-        </div>
+                        {selectedBoardId == b._id && (
+                            <button ref={btnRef} className="text-white modal-btn" onClick={() => setShowBoardOptionsModal(prev => !prev)}><EllipsisVertical dimensions="size-5" /></button>
+                        )}
+            
+                    </li>)}
+                </ul>
+            </motion.div>}
+        </AnimatePresence>
+        
 
         {showBoardOptionsModal && <BoardOptionsModal
             btnRef={btnRef}

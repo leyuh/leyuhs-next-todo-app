@@ -7,9 +7,10 @@ import ListOptionsModal from "./ListOptionsModal";
 
 const ListWrapper = ({ listsData, itemsData, boardData }) => {
 
- 
     return <>
-        <div className="flex gap-4 p-4 top-8 md:top-0 relative overflow-x-scroll h-[100vh]">
+        <div
+            className="flex gap-4 p-4 top-8 md:top-0 relative overflow-x-scroll h-[100vh]"
+        >
             {listsData.map((list, i) => <List
                 key={i}
                 listData={JSON.parse(JSON.stringify(list))}

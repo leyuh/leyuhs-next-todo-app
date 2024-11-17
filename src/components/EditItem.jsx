@@ -69,7 +69,7 @@ const EditItem = ({ itemData }) => {
                     }}><Close /></button>
                 </div>
                 
-
+                <p className="text-sm text-gray-500 ml-1">{(new Date(itemData.createdAt)).toString().split(" ").filter((item, i) => i > 0 && i < 4).join(" ")}</p>
                 <div className="mt-4">
                     <p className="text-md text-gray-500 ml-1">Description</p>
                     <textarea name="description" className="w-full h-[200px] overflow-y-scroll px-2 py-1 rounded-sm resize-none" placeholder={"Describe your item here..."} defaultValue={itemData.description} />
